@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Qwen
+Comment=IAWrapper - Qwen
+Exec=iawrapper --app=qwen
+Terminal=false
+Type=Application
+Icon=com.jgomezbau.iawrapper.qwen
+Categories=Utility;Network;Chat;
+StartupWMClass=iawrapper-qwen
+X-Flatpak=

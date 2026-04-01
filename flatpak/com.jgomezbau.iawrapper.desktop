@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=IAWrapper
+Comment=Universal desktop wrapper for AI platforms
+Exec=iawrapper
+Icon=com.jgomezbau.iawrapper
+Terminal=false
+Type=Application
+Categories=Utility;Network;Chat;
+StartupWMClass=iawrapper-chatgpt

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.jgomezbau.iawrapper</id>
+  <name>IAWrapper</name>
+  <summary>Universal desktop wrapper for AI platforms</summary>
+
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+
+  <developer id="com.jgomezbau">
+    <name>Juan Bau</name>
+  </developer>
+
+  <description>
+    <p>
+      IAWrapper is a configurable Electron-based desktop wrapper for AI platforms
+      such as ChatGPT, Claude, Grok, DeepSeek and Qwen.
+    </p>
+    <p>
+      It supports isolated sessions per provider, custom launch parameters,
+      provider-specific icons and desktop integration.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">com.jgomezbau.iawrapper.desktop</launchable>
+
+  <url type="homepage">https://github.com/jgomezbau/IAWrapper</url>
+  <url type="bugtracker">https://github.com/jgomezbau/IAWrapper/issues</url>
+
+  <content_rating type="oars-1.1"/>
+</component>

@@ -1,0 +1,58 @@
+app-id: com.jgomezbau.iawrapper
+runtime: org.freedesktop.Platform
+runtime-version: "24.08"
+sdk: org.freedesktop.Sdk
+command: iawrapper
+base: org.electronjs.Electron2.BaseApp
+base-version: "24.08"
+
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=session-bus
+  - --device=dri
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.gnome.SessionManager
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --filesystem=xdg-download
+  - --env=ELECTRON_TRASH=gio
+  - --env=TMPDIR=/var/tmp
+  - --env=ELECTRON_OZONE_PLATFORM_HINT=auto
+
+modules:
+  - name: iawrapper
+    buildsystem: simple
+    build-commands:
+      - install -d /app/share/iawrapper
+      - cp -r * /app/share/iawrapper/
+      - install -d /app/bin
+      - printf '#!/bin/sh\ncd /app/share/iawrapper\nexec zypak-wrapper /app/share/iawrapper/node_modules/electron/dist/electron --ozone-platform-hint=auto /app/share/iawrapper "$@"\n' > /app/bin/iawrapper
+      - chmod +x /app/bin/iawrapper
+
+      # .desktop genérico (requerido por Flatpak, debe coincidir con app-id)
+      - install -Dm644 flatpak/com.jgomezbau.iawrapper.desktop /app/share/applications/com.jgomezbau.iawrapper.desktop
+      # .desktop individuales por app — Flatpak los exporta al sistema automáticamente
+      - install -Dm644 flatpak/com.jgomezbau.iawrapper.chatgpt.desktop  /app/share/applications/com.jgomezbau.iawrapper.chatgpt.desktop
+      - install -Dm644 flatpak/com.jgomezbau.iawrapper.claude.desktop   /app/share/applications/com.jgomezbau.iawrapper.claude.desktop
+      - install -Dm644 flatpak/com.jgomezbau.iawrapper.grok.desktop     /app/share/applications/com.jgomezbau.iawrapper.grok.desktop
+      - install -Dm644 flatpak/com.jgomezbau.iawrapper.deepseek.desktop /app/share/applications/com.jgomezbau.iawrapper.deepseek.desktop
+      - install -Dm644 flatpak/com.jgomezbau.iawrapper.qwen.desktop     /app/share/applications/com.jgomezbau.iawrapper.qwen.desktop
+
+      # Metainfo
+      - install -Dm644 flatpak/com.jgomezbau.iawrapper.metainfo.xml /app/share/metainfo/com.jgomezbau.iawrapper.metainfo.xml
+
+      # Icono genérico
+      - install -Dm644 flatpak/com.jgomezbau.iawrapper.png /app/share/icons/hicolor/512x512/apps/com.jgomezbau.iawrapper.png
+      # Iconos individuales por app
+      - install -Dm644 icons/chatgpt.png  /app/share/icons/hicolor/512x512/apps/com.jgomezbau.iawrapper.chatgpt.png
+      - install -Dm644 icons/claude.png   /app/share/icons/hicolor/512x512/apps/com.jgomezbau.iawrapper.claude.png
+      - install -Dm644 icons/grok.png     /app/share/icons/hicolor/512x512/apps/com.jgomezbau.iawrapper.grok.png
+      - install -Dm644 icons/deepseek.png /app/share/icons/hicolor/512x512/apps/com.jgomezbau.iawrapper.deepseek.png
+      - install -Dm644 icons/qwen.png     /app/share/icons/hicolor/512x512/apps/com.jgomezbau.iawrapper.qwen.png
+
+    sources:
+      - type: dir
+        path: ..

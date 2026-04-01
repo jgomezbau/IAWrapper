@@ -2,6 +2,10 @@
 /node_modules
 /dist
 
+# Ignorar carpetas flatpak y de construcción
+/.flatpak-builder
+/build-dir
+
 # Ignorar archivos de configuración
 #config.json
 #secrets.env

@@ -2,7 +2,7 @@
   "name": "iawrapper",
   "version": "2.0.0",
   "description": "Wrapper universal de escritorio para asistentes de IA",
-  "homepage": "https://github.com/jgomezbau/Chat-AI-Varios",
+  "homepage": "https://github.com/jgomezbau/IAWrapper",
   "author": "Juan Bau <jgomezbau@gmail.com>",
   "main": "main.js",
   "scripts": {

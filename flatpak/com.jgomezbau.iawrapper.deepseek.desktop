@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=DeepSeek
+Comment=IAWrapper - DeepSeek
+Exec=iawrapper --app=deepseek
+Terminal=false
+Type=Application
+Icon=com.jgomezbau.iawrapper.deepseek
+Categories=Utility;Network;Chat;
+StartupWMClass=iawrapper-deepseek
+X-Flatpak=
