@@ -1,6 +1,7 @@
-# Ignorar la carpeta node_modules
+# Ignorar la carpeta y archivos de compilacion
 /node_modules
 /dist
+package-lock.json
 
 # Ignorar carpetas flatpak y de construcción
 /.flatpak-builder
