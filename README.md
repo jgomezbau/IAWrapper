@@ -315,11 +315,11 @@ Cada proveedor debe tener:
 ### Ejemplo conceptual
 
 ```bash
-~/.config/AIWrappers/chatgpt
-~/.config/AIWrappers/claude
-~/.config/AIWrappers/grok
-~/.config/AIWrappers/deepseek
-~/.config/AIWrappers/qwen
+~/.config/iawrappers/chatgpt
+~/.config/iawrappers/claude
+~/.config/iawrappers/grok
+~/.config/iawrappers/deepseek
+~/.config/iawrappers/qwen
 ```
 
 ---
@@ -862,7 +862,7 @@ Para actualizar a una nueva versión:
 Si la estructura de datos cambia entre versiones, se recomienda hacer backup de:
 
 ```bash
-~/.config/AIWrappers/
+~/.config/iawrappers/
 ```
 
 ---
