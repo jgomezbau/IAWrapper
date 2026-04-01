@@ -28,4 +28,36 @@
   <url type="bugtracker">https://github.com/jgomezbau/IAWrapper/issues</url>
 
   <content_rating type="oars-1.1"/>
+  <launchable type="desktop-id">com.jgomezbau.iawrapper.chatgpt.desktop</launchable>
+  <launchable type="desktop-id">com.jgomezbau.iawrapper.claude.desktop</launchable>
+  <launchable type="desktop-id">com.jgomezbau.iawrapper.grok.desktop</launchable>
+  <launchable type="desktop-id">com.jgomezbau.iawrapper.deepseek.desktop</launchable>
+  <launchable type="desktop-id">com.jgomezbau.iawrapper.qwen.desktop</launchable>
+
+  <url type="vcs-browser">https://github.com/jgomezbau/IAWrapper</url>
+
+  <categories>
+    <category>Utility</category>
+    <category>Network</category>
+    <category>Chat</category>
+  </categories>
+
+  <keywords>
+    <keyword>AI</keyword>
+    <keyword>ChatGPT</keyword>
+    <keyword>Claude</keyword>
+    <keyword>Grok</keyword>
+    <keyword>DeepSeek</keyword>
+    <keyword>Qwen</keyword>
+    <keyword>wrapper</keyword>
+    <keyword>electron</keyword>
+  </keywords>
+
+  <releases>
+    <release version="2.0.0" date="2026-04-01">
+      <description>
+        <p>Initial Flatpak release with support for ChatGPT, Claude, Grok, DeepSeek and Qwen.</p>
+      </description>
+    </release>
+  </releases>
 </component>
