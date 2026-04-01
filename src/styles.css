@@ -1,0 +1,183 @@
+/* Estilos personalizados para la aplicación ChatGPT */
+
+/* Variables globales */
+:root {
+  --primary-color: #10a37f;
+  --primary-hover: #0c8c6c;
+  --background-color: #343541;
+  --text-color: #ececf1;
+  --code-bg-color: #1e1e2f;
+  --error-color: #ff6b6b;
+  --success-color: #4ddb96;
+}
+
+/* Reseteo básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos base */
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Pantalla de carga */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: var(--background-color);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mensajes de estado */
+.status-message {
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.error-message {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.success-message {
+  background-color: var(--success-color);
+  color: white;
+}
+
+/* Botones */
+button {
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Estilos específicos para mejorar el portapapeles */
+.copy-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 4px 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.copy-button:hover {
+  opacity: 1;
+}
+
+/* Animación de copiado */
+@keyframes copied {
+  0% { background-color: var(--primary-color); }
+  100% { background-color: rgba(255, 255, 255, 0.1); }
+}
+
+.copied {
+  animation: copied 1s ease;
+}
+
+/* Estilo para notificaciones */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: notification-in 0.3s forwards, notification-out 0.3s 2.7s forwards;
+}
+
+@keyframes notification-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes notification-out {
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Estilos específicos para dar soporte a elementos de ChatGPT */
+pre, code {
+  font-family: 'Fira Code', 'Menlo', 'Monaco', 'Courier New', monospace;
+  background-color: var(--code-bg-color) !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+/* 
+  Estos estilos son importantes para asegurar que el texto sea seleccionable
+  incluso dentro de los canvas y otros elementos que puedan estar en ChatGPT
+*/
+.relative > div:not([contenteditable="true"]),
+[class*="prose"] > div:not([contenteditable="true"]) {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+/* Para asegurar que el texto se pueda seleccionar cuando se está en un bloque de código */
+.code-block, .codeblock, .language-javascript, [class*="code-"] {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}

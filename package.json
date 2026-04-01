@@ -1,0 +1,76 @@
+{
+  "name": "iawrapper",
+  "version": "2.0.0",
+  "description": "Wrapper universal de escritorio para asistentes de IA",
+  "homepage": "https://github.com/jgomezbau/Chat-AI-Varios",
+  "author": "Juan Bau <jgomezbau@gmail.com>",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "start:chatgpt": "electron . --app=chatgpt",
+    "start:claude": "electron . --app=claude",
+    "start:grok": "electron . --app=grok",
+    "start:deepseek": "electron . --app=deepseek",
+    "start:qwen": "electron . --app=qwen",
+    "dev": "electron . --enable-logging",
+    "dev:chatgpt": "electron . --enable-logging --app=chatgpt",
+    "dev:claude": "electron . --enable-logging --app=claude",
+    "dev:grok": "electron . --enable-logging --app=grok",
+    "dev:deepseek": "electron . --enable-logging --app=deepseek",
+    "dev:qwen": "electron . --enable-logging --app=qwen",
+    "debug": "electron --inspect=5858 .",
+    "build": "electron-builder",
+    "build:linux": "electron-builder --linux",
+    "build:appimage": "electron-builder --linux AppImage",
+    "build:deb": "electron-builder --linux deb",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.jgomezbau.iawrapper",
+    "productName": "IAWrapper",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "package.json",
+      "src/**/*",
+      "icons/**/*",
+      "LICENSE",
+      "!dist/**/*",
+      "!*.code-workspace",
+      "!**/*.ts"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "synopsis": "Wrapper universal de escritorio para asistentes de IA",
+      "description": "Wrapper universal de escritorio para ChatGPT, Claude, Grok, DeepSeek y Qwen",
+      "desktop": {
+        "Name": "IAWrapper",
+        "Comment": "Wrapper universal de escritorio para asistentes de IA",
+        "Categories": "Utility;Network;Chat"
+      },
+      "artifactName": "${productName}_${version}.${ext}",
+      "icon": "icons/icon.png"
+    },
+    "appImage": {
+      "license": "LICENSE"
+    },
+    "deb": {
+      "depends": [
+        "libnotify4",
+        "libxtst6",
+        "libnss3"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^41.0.2",
+    "electron-builder": "^24.13.3"
+  },
+  "license": "MIT"
+}
