@@ -8,6 +8,7 @@ Su objetivo es ofrecer una experiencia de escritorio consistente, mantenible y o
 - **Grok**
 - **DeepSeek**
 - **Qwen**
+
 ---
 ## Disclaimer
 
@@ -18,6 +19,7 @@ This project is not affiliated with, endorsed by, sponsored by, or supported by 
 ChatGPT, Claude, Grok, DeepSeek, Qwen, and any related names, logos, or trademarks are the property of their respective owners.
 
 IAWrapper only provides an alternative desktop wrapper to access publicly available web interfaces and does not claim any official relationship with those services.
+
 ---
 
 ## 🚀 Características principales
