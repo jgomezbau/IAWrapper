@@ -2,7 +2,7 @@
 Name=IAWrapper
 Comment=Universal desktop wrapper for AI platforms
 Exec=iawrapper
-Icon=io.github.jgomezbau.IAWrapper
+Icon=io.github.jgomezbau.iawrapper
 Terminal=false
 Type=Application
 Categories=Utility;Network;Chat;
