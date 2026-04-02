@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>com.jgomezbau.iawrapper</id>
+  <id>io.github.jgomezbau.iawrapper</id>
   <name>IAWrapper</name>
   <summary>Universal desktop wrapper for AI platforms</summary>
 
-  <metadata_license>MIT</metadata_license>
+  <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
 
-  <developer id="com.jgomezbau">
+  <developer id="io.github.jgomezbau">
     <name>Juan Bau</name>
   </developer>
 
@@ -22,19 +22,18 @@
     </p>
   </description>
 
-  <launchable type="desktop-id">com.jgomezbau.iawrapper.desktop</launchable>
+  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.desktop</launchable>
+  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.chatgpt.desktop</launchable>
+  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.claude.desktop</launchable>
+  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.grok.desktop</launchable>
+  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.deepseek.desktop</launchable>
+  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.qwen.desktop</launchable>
 
   <url type="homepage">https://github.com/jgomezbau/IAWrapper</url>
   <url type="bugtracker">https://github.com/jgomezbau/IAWrapper/issues</url>
+  <url type="vcs-browser">https://github.com/jgomezbau/IAWrapper</url>
 
   <content_rating type="oars-1.1"/>
-  <launchable type="desktop-id">com.jgomezbau.iawrapper.chatgpt.desktop</launchable>
-  <launchable type="desktop-id">com.jgomezbau.iawrapper.claude.desktop</launchable>
-  <launchable type="desktop-id">com.jgomezbau.iawrapper.grok.desktop</launchable>
-  <launchable type="desktop-id">com.jgomezbau.iawrapper.deepseek.desktop</launchable>
-  <launchable type="desktop-id">com.jgomezbau.iawrapper.qwen.desktop</launchable>
-
-  <url type="vcs-browser">https://github.com/jgomezbau/IAWrapper</url>
 
   <categories>
     <category>Utility</category>
@@ -54,10 +53,6 @@
   </keywords>
 
   <releases>
-    <release version="2.0.0" date="2026-04-01">
-      <description>
-        <p>Initial Flatpak release with support for ChatGPT, Claude, Grok, DeepSeek and Qwen.</p>
-      </description>
-    </release>
+    <release version="2.0.0" date="2026-04-01"/>
   </releases>
 </component>

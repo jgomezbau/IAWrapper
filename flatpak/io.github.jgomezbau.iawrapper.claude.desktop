@@ -4,7 +4,7 @@ Comment=IAWrapper - Claude
 Exec=iawrapper --app=claude
 Terminal=false
 Type=Application
-Icon=com.jgomezbau.iawrapper.claude
+Icon=io.github.jgomezbau.iawrapper.claude
 Categories=Utility;Network;Chat;
 StartupWMClass=iawrapper-claude
 X-Flatpak=

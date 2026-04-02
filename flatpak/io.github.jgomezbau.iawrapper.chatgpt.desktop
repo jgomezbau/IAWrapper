@@ -4,7 +4,7 @@ Comment=IAWrapper - ChatGPT
 Exec=iawrapper --app=chatgpt
 Terminal=false
 Type=Application
-Icon=com.jgomezbau.iawrapper.chatgpt
+Icon=io.github.jgomezbau.iawrapper.chatgpt
 Categories=Utility;Network;Chat;
 StartupWMClass=iawrapper-chatgpt
 X-Flatpak=

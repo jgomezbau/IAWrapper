@@ -4,7 +4,7 @@ Comment=IAWrapper - Grok
 Exec=iawrapper --app=grok
 Terminal=false
 Type=Application
-Icon=com.jgomezbau.iawrapper.grok
+Icon=io.github.jgomezbau.iawrapper.grok
 Categories=Utility;Network;Chat;
 StartupWMClass=iawrapper-grok
 X-Flatpak=
