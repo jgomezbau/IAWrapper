@@ -315,7 +315,7 @@ function buildAppMenu() {
       label: 'Aplicación',
       submenu: [
         { label: 'Recargar', accelerator: 'CmdOrCtrl+R', click: () => mainWindow?.reload() },
-        { label: 'Abrir DevTools', accelerator: 'CmdOrCtrl+Shift+I', click: () => mainWindow?.webContents.openDevTools() },
+        { label: 'Abrir DevTools', accelerator: 'CmdOrCtrl+Shift+D', click: () => mainWindow?.webContents.openDevTools() },
         {
           label: 'Limpiar caché de esta app',
           click: async () => {

@@ -336,7 +336,7 @@ Estos parámetros estaban disponibles como variables de entorno en versiones ant
 ## ⌨️ Atajos de teclado
 
 - **Ctrl+R**: recargar
-- **Ctrl+Shift+I**: abrir DevTools
+- **Ctrl+Shift+D**: abrir DevTools
 - **Ctrl+Q**: salir
 
 ---
