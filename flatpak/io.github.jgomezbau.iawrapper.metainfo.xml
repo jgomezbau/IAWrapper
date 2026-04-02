@@ -46,7 +46,28 @@
     <keyword>wrapper</keyword>
     <keyword>electron</keyword>
   </keywords>
-
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/chatgpt.png</image>
+      <caption>ChatGPT session</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/claude.png</image>
+      <caption>Claude session</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/deepseek.png</image>
+      <caption>DeepSeek session</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/grok.png</image>
+      <caption>Grok session</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/qwen.png</image>
+      <caption>Qwen session</caption>
+    </screenshot>
+  </screenshots>
   <releases>
     <release version="2.0.0" date="2026-04-01"/>
   </releases>
