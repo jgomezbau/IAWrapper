@@ -25,9 +25,14 @@ finish-args:
 modules:
   - name: iawrapper
     buildsystem: simple
+    build-options:
+      env:
+        npm_config_offline: "true"
+        npm_config_cache: /run/build/iawrapper/flatpak-node/npm-cache
     build-commands:
+      - npm install --offline
       - install -d /app/share/iawrapper
-      - cp -r * /app/share/iawrapper/
+      - cp -r . /app/share/iawrapper/
       - install -d /app/bin
       - printf '#!/bin/sh\ncd /app/share/iawrapper\nexec zypak-wrapper /app/share/iawrapper/node_modules/electron/dist/electron --ozone-platform-hint=auto /app/share/iawrapper "$@"\n' > /app/bin/iawrapper
       - chmod +x /app/bin/iawrapper
@@ -54,5 +59,7 @@ modules:
       - install -Dm644 icons/qwen.png     /app/share/icons/hicolor/512x512/apps/com.jgomezbau.iawrapper.qwen.png
 
     sources:
-      - type: dir
-        path: ..
+      - type: git
+        url: https://github.com/jgomezbau/IAWrapper.git
+        commit: df024023fb6828bf0bc27b90eb7a9c1d0fdcd95e
+      - flatpak/generated-sources.json
