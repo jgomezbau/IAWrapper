@@ -23,11 +23,6 @@
   </description>
 
   <launchable type="desktop-id">io.github.jgomezbau.iawrapper.desktop</launchable>
-  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.chatgpt.desktop</launchable>
-  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.claude.desktop</launchable>
-  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.grok.desktop</launchable>
-  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.deepseek.desktop</launchable>
-  <launchable type="desktop-id">io.github.jgomezbau.iawrapper.qwen.desktop</launchable>
 
   <url type="homepage">https://github.com/jgomezbau/IAWrapper</url>
   <url type="bugtracker">https://github.com/jgomezbau/IAWrapper/issues</url>

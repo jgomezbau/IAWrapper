@@ -74,8 +74,8 @@ Para AppImage también pueden requerirse dependencias estándar del entorno grá
 
 ### Clonar el repositorio
 ```bash
-git clone https://github.com/jgomezbau/iawrapper.git
-cd iawrapper
+git clone https://github.com/jgomezbau/IAWrapper.git
+cd IAWrapper
 ```
 
 ### Instalar dependencias
@@ -152,17 +152,17 @@ Usar este método mientras desarrollás — no requiere subir cambios a GitHub.
 
 ```bash
 # Desde la raíz del proyecto
-flatpak-builder --user --install --force-clean build-dir flatpak/com.jgomezbau.iawrapper.yml
+flatpak-builder --user --install --force-clean build-dir flatpak/io.github.jgomezbau.iawrapper.yml
 ```
 
 Para ejecutar después del build:
 
 ```bash
-flatpak run com.jgomezbau.iawrapper --app=chatgpt
-flatpak run com.jgomezbau.iawrapper --app=claude
-flatpak run com.jgomezbau.iawrapper --app=grok
-flatpak run com.jgomezbau.iawrapper --app=deepseek
-flatpak run com.jgomezbau.iawrapper --app=qwen
+flatpak run io.github.jgomezbau.iawrapper --app=chatgpt
+flatpak run io.github.jgomezbau.iawrapper --app=claude
+flatpak run io.github.jgomezbau.iawrapper --app=grok
+flatpak run io.github.jgomezbau.iawrapper --app=deepseek
+flatpak run io.github.jgomezbau.iawrapper --app=qwen
 ```
 
 ---
@@ -172,15 +172,15 @@ flatpak run com.jgomezbau.iawrapper --app=qwen
 Este método descarga el código directamente desde el repositorio. Se usa para distribuir la app o publicar en Flathub.
 
 El manifest de distribución está en un repositorio separado:  
-`https://github.com/jgomezbau/com.jgomezbau.iawrapper`
+`https://github.com/jgomezbau/io.github.jgomezbau.iawrapper`
 
 ```bash
 # Clonar el repo del manifest
-git clone https://github.com/jgomezbau/com.jgomezbau.iawrapper.git
-cd com.jgomezbau.iawrapper
+git clone https://github.com/jgomezbau/io.github.jgomezbau.iawrapper.git
+cd io.github.jgomezbau.iawrapper
 
 # Build e instalación
-flatpak-builder --user --install --force-clean build-dir com.jgomezbau.iawrapper.yml
+flatpak-builder --user --install --force-clean build-dir io.github.jgomezbau.iawrapper.yml
 ```
 
 ---
@@ -202,9 +202,9 @@ git rev-parse HEAD   # copiar el hash resultante
 flatpak-node-generator npm package-lock.json -o flatpak/generated-sources.json
 ```
 
-**3. En el repo del manifest (`com.jgomezbau.iawrapper`), actualizar el commit hash:**
+**3. En el repo del manifest (`io.github.jgomezbau.iawrapper`), actualizar el commit hash:**
 
-Editar `com.jgomezbau.iawrapper.yml` y reemplazar el valor de `commit:` con el nuevo hash:
+Editar `io.github.jgomezbau.iawrapper.yml` y reemplazar el valor de `commit:` con el nuevo hash:
 ```yaml
 sources:
   - type: git
@@ -239,7 +239,7 @@ git push
 ### 🗑️ Desinstalar el Flatpak
 
 ```bash
-flatpak uninstall com.jgomezbau.iawrapper
+flatpak uninstall io.github.jgomezbau.iawrapper
 ```
 
 ---
@@ -346,15 +346,15 @@ Estos parámetros estaban disponibles como variables de entorno en versiones ant
 ```text
 iawrapper/
 ├── flatpak/
-│   ├── com.jgomezbau.iawrapper.yml          ← manifest local
-│   ├── com.jgomezbau.iawrapper.desktop
-│   ├── com.jgomezbau.iawrapper.chatgpt.desktop
-│   ├── com.jgomezbau.iawrapper.claude.desktop
-│   ├── com.jgomezbau.iawrapper.grok.desktop
-│   ├── com.jgomezbau.iawrapper.deepseek.desktop
-│   ├── com.jgomezbau.iawrapper.qwen.desktop
-│   ├── com.jgomezbau.iawrapper.metainfo.xml
-│   ├── com.jgomezbau.iawrapper.png
+│   ├── io.github.jgomezbau.iawrapper.yml          ← manifest local
+│   ├── io.github.jgomezbau.iawrapper.desktop
+│   ├── io.github.jgomezbau.iawrapper.chatgpt.desktop
+│   ├── io.github.jgomezbau.iawrapper.claude.desktop
+│   ├── io.github.jgomezbau.iawrapper.grok.desktop
+│   ├── io.github.jgomezbau.iawrapper.deepseek.desktop
+│   ├── io.github.jgomezbau.iawrapper.qwen.desktop
+│   ├── io.github.jgomezbau.iawrapper.metainfo.xml
+│   ├── io.github.jgomezbau.iawrapper.png
 │   └── generated-sources.json
 ├── icons/
 │   ├── chatgpt.png
