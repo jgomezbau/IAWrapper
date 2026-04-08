@@ -571,6 +571,11 @@ function createWindow() {
     return;
   }
 
+  // Permitir URLs de archivo (drag & drop debe pasar al navegador)
+  if (url.startsWith('file://')) {
+    return;
+  }
+
     event.preventDefault();
     shell.openExternal(url);
   });

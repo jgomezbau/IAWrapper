@@ -16,7 +16,9 @@ finish-args:
   - --talk-name=org.gnome.SessionManager
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=com.canonical.AppMenu.Registrar
+  - --filesystem=home
   - --filesystem=xdg-download
+  - --talk-name=org.freedesktop.portal.Desktop
   - --env=ELECTRON_TRASH=gio
   - --env=TMPDIR=/var/tmp
   - --env=ELECTRON_OZONE_PLATFORM_HINT=auto
