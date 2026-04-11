@@ -6,7 +6,7 @@ const APPS = Object.freeze({
     name: 'IAWrapper',
     title: 'IAWrapper',
     url: 'https://chatgpt.com/',
-    icon: 'iawrapper.png',
+    icon: 'providers/iawrapper.png',
     loginDomains: [
       /(^|\.)chatgpt\.com$/i,
       /(^|\.)openai\.com$/i,
