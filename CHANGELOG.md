@@ -26,7 +26,6 @@ The format is based on Keep a Changelog and this project follows semantic versio
 
 ### Removed
 
-- Removed the old injected in-page assistant switcher approach in favor of a tray-based assistant menu.
 - Removed legacy Linux-unused icon formats from the repository release flow.
 
 ## [2.0.0] - 2026-04-11

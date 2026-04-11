@@ -1,23 +1,59 @@
-# IAWrapper
+<p align="center">
+  <img src="assets/icons/providers/iawrapper.png" alt="IAWrapper" width="96" height="96">
+</p>
 
-IAWrapper is a Linux-first Electron desktop wrapper for popular AI assistants. It turns supported web apps into standalone desktop launchers with isolated sessions, Linux packaging, and a generic IAWrapper mode for people who want to choose an assistant at runtime.
+<h1 align="center">IAWrapper</h1>
 
-Supported assistants:
+<p align="center">
+  Linux-first Electron desktop wrapper for popular AI assistants
+</p>
 
-- ChatGPT
-- Claude
-- Gemini
-- Grok
-- DeepSeek
-- Qwen
+<p align="center">
+  Standalone launchers · Isolated sessions · Generic IAWrapper mode · AppImage / .deb / Flatpak-ready
+</p>
 
-## Features
+## Overview
+
+IAWrapper turns supported AI web apps into standalone Linux desktop applications with isolated Electron sessions, Linux packaging, and a generic launcher mode for users who want to choose an assistant at runtime.
+
+## Supported Assistants
+
+<table>
+  <tr>
+    <td align="center" width="16.6%">
+      <img src="assets/icons/providers/chatgpt.png" alt="ChatGPT" width="48" height="48"><br>
+      <strong>ChatGPT</strong>
+    </td>
+    <td align="center" width="16.6%">
+      <img src="assets/icons/providers/claude.png" alt="Claude" width="48" height="48"><br>
+      <strong>Claude</strong>
+    </td>
+    <td align="center" width="16.6%">
+      <img src="assets/icons/providers/gemini.png" alt="Gemini" width="48" height="48"><br>
+      <strong>Gemini</strong>
+    </td>
+    <td align="center" width="16.6%">
+      <img src="assets/icons/providers/grok.png" alt="Grok" width="48" height="48"><br>
+      <strong>Grok</strong>
+    </td>
+    <td align="center" width="16.6%">
+      <img src="assets/icons/providers/deepseek.png" alt="DeepSeek" width="48" height="48"><br>
+      <strong>DeepSeek</strong>
+    </td>
+    <td align="center" width="16.6%">
+      <img src="assets/icons/providers/qwen.png" alt="Qwen" width="48" height="48"><br>
+      <strong>Qwen</strong>
+    </td>
+  </tr>
+</table>
+
+## Highlights
 
 - Standalone Linux desktop wrapper for multiple AI assistants
 - Isolated Electron session data per assistant
 - Direct launch support through `--app=<assistant>`
 - Generic `iawrapper` launcher mode when started without `--app`
-- First-run assistant chooser window in generic mode
+- First-run chooser window labeled `Elegi un Asistente`
 - Remembers the last assistant used in generic mode
 - Assistant switching from the system tray in generic mode
 - Generic IAWrapper branding for taskbar, tray, and window icon in generic mode
@@ -25,23 +61,9 @@ Supported assistants:
 - Linux packaging for `AppImage`, `.deb`, and `tar.gz`
 - Flatpak metadata and desktop entries included in the repository
 
-## Screenshots
+## Quick Start
 
-Screenshots for the Flatpak/AppStream metadata live in [`flatpak/screenshots`](flatpak/screenshots).
-
-## Requirements
-
-- Linux
-- Node.js 18 or newer
-- npm 8 or newer
-
-Runtime and packaging on Debian-based systems may require:
-
-- `libnotify4`
-- `libxtst6`
-- `libnss3`
-
-## Installation
+Install dependencies:
 
 ```bash
 git clone https://github.com/jgomezbau/IAWrapper.git
@@ -49,20 +71,11 @@ cd IAWrapper
 npm install
 ```
 
-## Usage
-
 Start IAWrapper in generic mode:
 
 ```bash
 npm start
 ```
-
-Generic mode behavior:
-
-- On first launch, or when no last assistant is stored, IAWrapper opens a chooser window labeled `Elegi un Asistente`.
-- After an assistant is selected, IAWrapper remembers it and opens that assistant directly on future launches without `--app`.
-- In generic mode, the taskbar icon, tray icon, and main application identity remain `IAWrapper`.
-- The active assistant can be changed from the tray menu through `Elegi un Asistente`.
 
 Start a specific assistant directly:
 
@@ -81,12 +94,39 @@ You can also launch directly with:
 electron . --app=chatgpt
 ```
 
-Direct-launch mode behavior:
+## How It Works
+
+**Generic mode**
+
+Use `npm start` or launch `iawrapper` without `--app`.
+
+- On first launch, or when no valid last assistant is stored, IAWrapper opens a chooser window labeled `Elegi un Asistente`.
+- Once an assistant is selected, IAWrapper remembers it and reopens it automatically on future launches without `--app`.
+- In this mode, the application identity stays as `IAWrapper`.
+- The taskbar icon remains the IAWrapper icon.
+- The tray icon remains the IAWrapper icon.
+- The active assistant can be changed from the tray menu through `Elegi un Asistente`.
+
+**Direct-launch mode**
+
+Use `--app=<assistant>` or `npm run start:<assistant>`.
 
 - Opens the requested assistant immediately
 - Does not show the generic chooser flow
 - Does not show the assistant-switching tray submenu
 - Uses the selected assistant identity and icon as the runtime branding
+
+## Requirements
+
+- Linux
+- Node.js 18 or newer
+- npm 8 or newer
+
+Runtime and packaging on Debian-based systems may require:
+
+- `libnotify4`
+- `libxtst6`
+- `libnss3`
 
 ## Development
 
@@ -143,6 +183,10 @@ flatpak run io.github.jgomezbau.iawrapper --app=grok
 flatpak run io.github.jgomezbau.iawrapper --app=deepseek
 flatpak run io.github.jgomezbau.iawrapper --app=qwen
 ```
+
+## Screenshots
+
+Screenshots used for Flatpak/AppStream metadata live in [`flatpak/screenshots`](flatpak/screenshots).
 
 ## Project Structure
 
