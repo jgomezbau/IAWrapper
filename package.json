@@ -1,24 +1,38 @@
 {
   "name": "iawrapper",
   "version": "2.0.0",
-  "description": "Wrapper universal de escritorio para asistentes de IA",
+  "description": "Linux desktop wrapper for ChatGPT, Claude, Gemini, Grok, DeepSeek, and Qwen",
   "homepage": "https://github.com/jgomezbau/IAWrapper",
   "author": "Juan Bau <jgomezbau@gmail.com>",
-  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jgomezbau/IAWrapper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jgomezbau/IAWrapper/issues"
+  },
+  "main": "src/main/index.js",
+  "engines": {
+    "node": ">=18",
+    "npm": ">=8"
+  },
   "scripts": {
     "start": "electron .",
     "start:chatgpt": "electron . --app=chatgpt",
     "start:claude": "electron . --app=claude",
+    "start:gemini": "electron . --app=gemini",
     "start:grok": "electron . --app=grok",
     "start:deepseek": "electron . --app=deepseek",
     "start:qwen": "electron . --app=qwen",
     "dev": "electron . --enable-logging",
     "dev:chatgpt": "electron . --enable-logging --app=chatgpt",
     "dev:claude": "electron . --enable-logging --app=claude",
+    "dev:gemini": "electron . --enable-logging --app=gemini",
     "dev:grok": "electron . --enable-logging --app=grok",
     "dev:deepseek": "electron . --enable-logging --app=deepseek",
     "dev:qwen": "electron . --enable-logging --app=qwen",
     "debug": "electron --inspect=5858 .",
+    "build:dir": "electron-builder --dir",
     "build": "electron-builder",
     "build:linux": "electron-builder --linux",
     "build:appimage": "electron-builder --linux AppImage",
@@ -28,40 +42,61 @@
   "build": {
     "appId": "io.github.jgomezbau.iawrapper",
     "productName": "IAWrapper",
+    "asar": true,
     "directories": {
-      "output": "dist"
+      "output": "dist",
+      "buildResources": "assets"
     },
     "files": [
-      "main.js",
       "package.json",
+      "package-lock.json",
       "src/**/*",
-      "icons/**/*",
+      "assets/**/*",
       "LICENSE",
       "!dist/**/*",
       "!*.code-workspace",
       "!**/*.ts"
     ],
+    "extraResources": [
+      {
+        "from": "assets/icons/iawrapper.png",
+        "to": "assets/icons/iawrapper.png"
+      },
+      {
+        "from": "assets/linux",
+        "to": "assets/linux"
+      },
+      {
+        "from": "assets/icons/providers",
+        "to": "assets/icons/providers"
+      }
+    ],
     "linux": {
+      "executableName": "iawrapper",
       "target": [
         "AppImage",
         "deb",
         "tar.gz"
       ],
       "category": "Utility",
-      "synopsis": "Wrapper universal de escritorio para asistentes de IA",
-      "description": "Wrapper universal de escritorio para ChatGPT, Claude, Grok, DeepSeek y Qwen",
+      "synopsis": "Linux desktop wrapper for AI web apps",
+      "description": "Desktop wrapper for ChatGPT, Claude, Gemini, Grok, DeepSeek, and Qwen with isolated sessions per provider.",
       "desktop": {
         "Name": "IAWrapper",
-        "Comment": "Wrapper universal de escritorio para asistentes de IA",
-        "Categories": "Utility;Network;Chat"
+        "Comment": "Linux desktop wrapper for AI assistants",
+        "Categories": "Utility;Network;Chat;",
+        "StartupWMClass": "iawrapper-iawrapper"
       },
-      "artifactName": "${productName}_${version}.${ext}",
-      "icon": "icons/icon.png"
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "icon": "icons/iawrapper.png"
     },
     "appImage": {
       "license": "LICENSE"
     },
     "deb": {
+      "packageName": "iawrapper",
+      "afterInstall": "assets/linux/scripts/postinst.sh",
+      "afterRemove": "assets/linux/scripts/postrm.sh",
       "depends": [
         "libnotify4",
         "libxtst6",
@@ -70,8 +105,8 @@
     }
   },
   "devDependencies": {
-    "electron": "^41.0.2",
-    "electron-builder": "^24.13.3"
+    "electron": "41.1.0",
+    "electron-builder": "24.13.3"
   },
   "license": "MIT"
 }

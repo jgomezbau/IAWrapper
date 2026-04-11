@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>io.github.jgomezbau.iawrapper</id>
   <name>IAWrapper</name>
-  <summary>Universal desktop wrapper for AI platforms</summary>
+  <summary>Linux desktop wrapper for web-based AI assistants</summary>
 
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
@@ -13,12 +13,12 @@
 
   <description>
     <p>
-      IAWrapper is a configurable Electron-based desktop wrapper for AI platforms
-      such as ChatGPT, Claude, Grok, DeepSeek and Qwen.
+      IAWrapper is a Linux-first Electron desktop wrapper for AI platforms such as
+      ChatGPT, Claude, Gemini, Grok, DeepSeek, and Qwen.
     </p>
     <p>
-      It supports isolated sessions per provider, custom launch parameters,
-      provider-specific icons and desktop integration.
+      It provides isolated sessions per provider, provider-specific desktop launchers,
+      Linux packaging, and desktop integration without relying on a browser profile.
     </p>
   </description>
 
@@ -41,6 +41,7 @@
     <keyword>ChatGPT</keyword>
     <keyword>Claude</keyword>
     <keyword>Grok</keyword>
+    <keyword>Gemini</keyword>
     <keyword>DeepSeek</keyword>
     <keyword>Qwen</keyword>
     <keyword>wrapper</keyword>
@@ -48,27 +49,27 @@
   </keywords>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/chatgpt.png</image>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/main/flatpak/screenshots/chatgpt.png</image>
       <caption>ChatGPT session</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/claude.png</image>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/main/flatpak/screenshots/claude.png</image>
       <caption>Claude session</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/deepseek.png</image>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/main/flatpak/screenshots/deepseek.png</image>
       <caption>DeepSeek session</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/grok.png</image>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/main/flatpak/screenshots/grok.png</image>
       <caption>Grok session</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/299c759e9601569ad560561c1d2f8b2540539f32/flatpak/screenshots/qwen.png</image>
+      <image>https://raw.githubusercontent.com/jgomezbau/IAWrapper/main/flatpak/screenshots/qwen.png</image>
       <caption>Qwen session</caption>
     </screenshot>
   </screenshots>
   <releases>
-    <release version="2.0.0" date="2026-04-01"/>
+    <release version="2.0.0" date="2026-04-11"/>
   </releases>
 </component>

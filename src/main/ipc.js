@@ -1,8 +1,6 @@
 const { ipcMain, clipboard, dialog } = require('electron');
 
-// Configurar manejadores de IPC para la comunicación entre procesos
 function setupIPC() {
-  // Manejar solicitud para copiar al portapapeles
   ipcMain.handle('clipboard:copy', async (_, text) => {
     try {
       clipboard.writeText(text);
@@ -13,7 +11,6 @@ function setupIPC() {
     }
   });
 
-  // Manejar solicitud para leer del portapapeles
   ipcMain.handle('clipboard:read', async () => {
     try {
       const text = clipboard.readText();
@@ -24,7 +21,6 @@ function setupIPC() {
     }
   });
 
-  // Manejar solicitud para mostrar diálogo
   ipcMain.handle('dialog:show', async (_, options) => {
     try {
       const result = await dialog.showMessageBox(options);

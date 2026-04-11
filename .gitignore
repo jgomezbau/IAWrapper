@@ -1,21 +1,12 @@
-# Ignorar la carpeta y archivos de compilacion
-/node_modules
-/dist
-package-lock.json
-/.codex
+node_modules/
+dist/
+build-dir/
+.flatpak-builder/
+.codex
+.codex/
 
-# Ignorar carpetas flatpak y de construcción
-/.flatpak-builder
-/build-dir
-
-# Ignorar archivos de configuración
-#config.json
-#secrets.env
-
-# Ignorar archivos temporales
-*.tmp
 *.log
+*.tmp
 
-# Ignorar archivos generados por el sistema operativo
 .DS_Store
 Thumbs.db

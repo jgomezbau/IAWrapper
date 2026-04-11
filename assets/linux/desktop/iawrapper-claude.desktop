@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Claude
+Comment=IAWrapper - Claude
+Exec=/opt/IAWrapper/iawrapper --app=claude
+Terminal=false
+Type=Application
+Icon=iawrapper-claude
+Categories=Utility;Network;Chat;
+StartupWMClass=iawrapper-claude
