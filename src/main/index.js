@@ -10,8 +10,15 @@ const cli = parseArgs(process.argv);
 const projectRoot = path.resolve(__dirname, '..', '..');
 const iconsRoot = path.join(projectRoot, 'assets', 'icons');
 const brandingAppConfig = cli.explicitApp ? APPS[cli.appId] : APPS.iawrapper;
+const genericSettingsDir = path.join(app.getPath('appData'), 'IAWrappers');
+const genericSettingsFile = path.join(genericSettingsDir, 'config.json');
+const NO_PARAM_MODE = !cli.explicitApp;
 
 let activeAppConfig = cli.explicitApp ? APPS[cli.appId] : null;
+let isSwitchingProvider = false;
+let initialSelectorRequired = false;
+let isClosingSelectorForLaunch = false;
+const assistantMenuIconCache = new Map();
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
@@ -49,6 +56,43 @@ function createTrayIcon(iconName) {
   return image;
 }
 
+function getAssistantMenuIcon(iconName) {
+  if (assistantMenuIconCache.has(iconName)) {
+    return assistantMenuIconCache.get(iconName);
+  }
+
+  const iconPath = resolveIconPath(iconName);
+  let image = nativeImage.createFromPath(iconPath);
+
+  if (image.isEmpty()) {
+    image = nativeImage.createFromPath(resolveIconPath('providers/iawrapper.png'));
+  }
+
+  if (!image.isEmpty()) {
+    image = image.resize({
+      width: 16,
+      height: 16,
+      quality: 'best'
+    });
+  }
+
+  assistantMenuIconCache.set(iconName, image);
+  return image;
+}
+
+function readJsonFile(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function writeJsonFile(filePath, value) {
+  ensureDir(path.dirname(filePath));
+  fs.writeFileSync(filePath, JSON.stringify(value, null, 2));
+}
+
 function hashString(input) {
   let hash = 0;
   for (let i = 0; i < input.length; i += 1) {
@@ -77,6 +121,46 @@ function setActiveApp(appId) {
   activeAppConfig = APPS[appId];
   ensureDir(getUserDataPath());
   app.setPath('userData', getUserDataPath());
+}
+
+function getSupportedProviders() {
+  return Object.values(APPS).filter(({ id }) => id !== 'iawrapper');
+}
+
+function isSupportedProvider(appId) {
+  return getSupportedProviders().some((provider) => provider.id === appId);
+}
+
+function loadLastProviderForGenericMode() {
+  const config = readJsonFile(genericSettingsFile);
+  const providerId = config?.lastProviderId;
+  return isSupportedProvider(providerId) ? providerId : null;
+}
+
+function persistLastProviderForGenericMode(appId) {
+  if (!NO_PARAM_MODE || !isSupportedProvider(appId)) return;
+
+  const current = readJsonFile(genericSettingsFile) || {};
+  writeJsonFile(genericSettingsFile, {
+    ...current,
+    lastProviderId: appId
+  });
+}
+
+function getProviderState() {
+  return {
+    enabled: NO_PARAM_MODE && !!activeAppConfig,
+    currentProviderId: activeAppConfig?.id || null,
+    providers: getSupportedProviders().map((provider) => {
+      const iconPath = resolveIconPath(provider.icon);
+      const iconBuffer = fs.readFileSync(iconPath);
+      return {
+        id: provider.id,
+        name: provider.name,
+        iconDataUrl: `data:image/png;base64,${iconBuffer.toString('base64')}`
+      };
+    })
+  };
 }
 
 function hostnameOf(targetUrl) {
@@ -148,8 +232,7 @@ let lockServer = null;
 let isQuitting = false;
 
 function focusMainWindow() {
-  if (selectorWindow && !selectorWindow.isDestroyed()) {
-    if (!selectorWindow.isVisible()) selectorWindow.show();
+  if (selectorWindow && !selectorWindow.isDestroyed() && selectorWindow.isVisible()) {
     selectorWindow.focus();
     return;
   }
@@ -263,33 +346,66 @@ function createTray() {
   const icon = createTrayIcon(brandingAppConfig.icon);
   tray = new Tray(icon);
 
-  tray.setToolTip(brandingAppConfig.name);
-  tray.setContextMenu(Menu.buildFromTemplate([
-    {
-      label: `Mostrar/Ocultar ${brandingAppConfig.name}`,
-      click: () => {
-        if (selectorWindow && !selectorWindow.isDestroyed()) {
-          selectorWindow.isVisible() ? selectorWindow.hide() : selectorWindow.show();
-          selectorWindow.focus();
-          return;
-        }
-
-        if (!mainWindow || mainWindow.isDestroyed()) return;
-        mainWindow.isVisible() ? mainWindow.hide() : focusMainWindow();
-      }
-    },
-    { type: 'separator' },
-    {
-      label: 'Salir',
-      click: () => {
-        isQuitting = true;
-        app.quit();
-      }
+  function buildAssistantsSubmenu() {
+    if (!NO_PARAM_MODE) {
+      return [];
     }
-  ]));
+
+    const currentAssistantId = getActiveAppConfig().id;
+
+    return getSupportedProviders().map((provider) => ({
+        label: provider.name,
+        type: 'radio',
+        checked: provider.id === currentAssistantId,
+        icon: getAssistantMenuIcon(provider.icon),
+        click: () => {
+          if (provider.id !== currentAssistantId) {
+            switchProviderInMainWindow(provider.id);
+          }
+        }
+      }));
+  }
+
+  function refreshTrayMenu() {
+    tray.setContextMenu(Menu.buildFromTemplate([
+      ...(NO_PARAM_MODE
+          ? [
+            {
+              label: 'Elegi un Asistente',
+              submenu: buildAssistantsSubmenu()
+            },
+            { type: 'separator' }
+          ]
+        : []),
+      {
+        label: `Mostrar/Ocultar ${brandingAppConfig.name}`,
+        click: () => {
+          if (selectorWindow && !selectorWindow.isDestroyed() && selectorWindow.isVisible()) {
+            selectorWindow.isVisible() ? selectorWindow.hide() : selectorWindow.show();
+            selectorWindow.focus();
+            return;
+          }
+
+          if (!mainWindow || mainWindow.isDestroyed()) return;
+          mainWindow.isVisible() ? mainWindow.hide() : focusMainWindow();
+        }
+      },
+      { type: 'separator' },
+      {
+        label: 'Salir',
+        click: () => {
+          isQuitting = true;
+          app.quit();
+        }
+      }
+    ]));
+  }
+
+  tray.setToolTip(brandingAppConfig.name);
+  refreshTrayMenu();
 
   tray.on('click', () => {
-    if (selectorWindow && !selectorWindow.isDestroyed()) {
+    if (selectorWindow && !selectorWindow.isDestroyed() && selectorWindow.isVisible()) {
       selectorWindow.isVisible() ? selectorWindow.hide() : selectorWindow.show();
       selectorWindow.focus();
       return;
@@ -298,6 +414,8 @@ function createTray() {
     if (!mainWindow || mainWindow.isDestroyed()) return;
     mainWindow.isVisible() ? mainWindow.hide() : focusMainWindow();
   });
+
+  tray.refreshMenu = refreshTrayMenu;
 }
 
 function createLoginWindow(targetUrl) {
@@ -389,7 +507,7 @@ function shouldUseLoginWindow(url) {
 }
 
 function buildProviderSelectorHtml() {
-  const providers = Object.values(APPS).filter(({ id }) => id !== 'iawrapper');
+  const providers = getSupportedProviders();
   const cards = providers.map((provider) => {
     const iconPath = resolveIconPath(provider.icon);
     const iconBuffer = fs.readFileSync(iconPath);
@@ -480,8 +598,8 @@ function buildProviderSelectorHtml() {
     </head>
     <body>
       <main class="panel">
-        <h1>Selecciona un modelo</h1>
-        <p>Elige el asistente que quieres abrir. IAWrapper mantendrá su icono genérico mientras cargas el chat seleccionado.</p>
+        <h1>Elegi un Asistente</h1>
+        <p>Elegí el asistente que quieres abrir. IAWrapper mantendrá su icono genérico mientras cargas el chat seleccionado.</p>
         <section class="providers">
           ${cards}
         </section>
@@ -540,35 +658,86 @@ function createSelectorWindow() {
 
   selectorWindow.on('closed', () => {
     selectorWindow = null;
-    if (!mainWindow && !isQuitting) {
+    if (!mainWindow && !isQuitting && !isClosingSelectorForLaunch) {
       app.quit();
     }
   });
 }
 
 function openSelectedProvider(appId) {
+  if (!isSupportedProvider(appId)) {
+    return;
+  }
+
+  persistLastProviderForGenericMode(appId);
   setActiveApp(appId);
+  tray?.refreshMenu?.();
+
+  if (selectorWindow && !selectorWindow.isDestroyed()) {
+    isClosingSelectorForLaunch = true;
+    selectorWindow.close();
+  }
 
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.loadURL(getActiveAppConfig().url);
     focusMainWindow();
+    isClosingSelectorForLaunch = false;
     return;
   }
 
   createWindow();
+  isClosingSelectorForLaunch = false;
 }
 
-function createWindow() {
+function switchProviderInMainWindow(appId) {
+  if (!NO_PARAM_MODE || !isSupportedProvider(appId) || activeAppConfig?.id === appId) {
+    return { success: false, error: 'Invalid or unchanged provider.' };
+  }
+
+  persistLastProviderForGenericMode(appId);
+
+  const previousWindow = mainWindow;
+  const windowState = previousWindow && !previousWindow.isDestroyed()
+    ? {
+        bounds: previousWindow.getBounds(),
+        isMaximized: previousWindow.isMaximized()
+      }
+    : null;
+
+  if (loginWindow && !loginWindow.isDestroyed()) {
+    loginWindow.destroy();
+    loginWindow = null;
+  }
+
+  setActiveApp(appId);
+  tray?.refreshMenu?.();
+
+  if (!previousWindow || previousWindow.isDestroyed()) {
+    createWindow(windowState);
+    return { success: true };
+  }
+
+  isSwitchingProvider = true;
+  previousWindow.destroy();
+  createWindow(windowState);
+  isSwitchingProvider = false;
+
+  return { success: true };
+}
+
+function createWindow(windowState = null) {
   const appConfig = getActiveAppConfig();
   const partitionName = getPartitionName();
-
-  mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 900,
+  const useGenericBranding = NO_PARAM_MODE;
+  const windowRef = new BrowserWindow({
+    width: windowState?.bounds?.width || 1280,
+    height: windowState?.bounds?.height || 900,
+    x: windowState?.bounds?.x,
+    y: windowState?.bounds?.y,
     show: false,
     autoHideMenuBar: true,
-    title: appConfig.title,
-    icon: resolveIconPath(appConfig.icon),
+    title: useGenericBranding ? `IAWrapper - ${appConfig.name}` : appConfig.title,
+    icon: resolveIconPath(useGenericBranding ? brandingAppConfig.icon : appConfig.icon),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -584,6 +753,8 @@ function createWindow() {
     }
   });
 
+  mainWindow = windowRef;
+
   const ses = getSession();
 
   ses.setPermissionRequestHandler((_wc, permission, callback) => {
@@ -595,11 +766,11 @@ function createWindow() {
     callback(allowedPermissions.has(permission));
   });
 
-  mainWindow.webContents.setWindowOpenHandler(({ url, features }) => {
+  windowRef.webContents.setWindowOpenHandler(({ url, features }) => {
     if (shouldStayInsideApp(url)) {
       setTimeout(() => {
-        if (mainWindow && !mainWindow.isDestroyed()) {
-          mainWindow.loadURL(url);
+        if (windowRef && !windowRef.isDestroyed()) {
+          windowRef.loadURL(url);
         }
       }, 0);
 
@@ -654,7 +825,7 @@ function createWindow() {
     return { action: 'deny' };
   });
 
-  mainWindow.webContents.on('will-navigate', (event, url) => {
+  windowRef.webContents.on('will-navigate', (event, url) => {
     if (shouldStayInsideApp(url)) {
       return;
     }
@@ -678,34 +849,54 @@ function createWindow() {
     shell.openExternal(url);
   });
 
-  mainWindow.webContents.on('context-menu', (_event, params) => {
+  windowRef.webContents.on('context-menu', (_event, params) => {
     buildContextMenu(params).popup();
   });
 
-  mainWindow.on('close', (event) => {
+  windowRef.on('close', (event) => {
+    if (isSwitchingProvider) {
+      return;
+    }
+
     if (process.platform !== 'darwin' && !isQuitting) {
       event.preventDefault();
-      mainWindow.hide();
+      windowRef.hide();
     }
   });
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
+  windowRef.on('closed', () => {
+    if (mainWindow === windowRef) {
+      mainWindow = null;
+    }
+
     if (!cli.explicitApp && selectorWindow && !selectorWindow.isDestroyed()) {
       selectorWindow.show();
       selectorWindow.focus();
     }
   });
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
+  windowRef.once('ready-to-show', () => {
+    if (windowState?.isMaximized) {
+      windowRef.maximize();
+    }
+
+    windowRef.show();
 
     if (process.env.FORCE_DEVTOOLS === '1' || cli.forceDevtools) {
-      mainWindow.webContents.openDevTools({ mode: 'right' });
+      windowRef.webContents.openDevTools({ mode: 'right' });
     }
   });
 
-  mainWindow.loadURL(appConfig.url);
+  windowRef.loadURL(appConfig.url);
+}
+
+if (NO_PARAM_MODE) {
+  const savedProviderId = loadLastProviderForGenericMode();
+  if (savedProviderId) {
+    setActiveApp(savedProviderId);
+  } else {
+    initialSelectorRequired = true;
+  }
 }
 
 setupIPC();
@@ -724,14 +915,16 @@ app.whenReady().then(() => {
   createTray();
   if (cli.explicitApp) {
     createWindow();
-  } else {
+  } else if (initialSelectorRequired) {
     createSelectorWindow();
+  } else {
+    createWindow();
   }
   Menu.setApplicationMenu(buildAppMenu());
 });
 
 app.on('activate', () => {
-  if (mainWindow === null && !cli.explicitApp) {
+  if (mainWindow === null && !cli.explicitApp && initialSelectorRequired && !activeAppConfig) {
     createSelectorWindow();
   } else if (mainWindow === null) {
     createWindow();

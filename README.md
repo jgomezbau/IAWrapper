@@ -1,8 +1,8 @@
 # IAWrapper
 
-IAWrapper is a Linux-first Electron desktop wrapper for web-based AI assistants. It turns supported services into standalone desktop applications with isolated sessions, provider-specific launchers, and native Linux packaging.
+IAWrapper is a Linux-first Electron desktop wrapper for popular AI assistants. It turns supported web apps into standalone desktop launchers with isolated sessions, Linux packaging, and a generic IAWrapper mode for people who want to choose an assistant at runtime.
 
-The current release targets:
+Supported assistants:
 
 - ChatGPT
 - Claude
@@ -11,23 +11,23 @@ The current release targets:
 - DeepSeek
 - Qwen
 
-IAWrapper is an independent and unofficial wrapper. It is not affiliated with, endorsed by, or supported by OpenAI, Anthropic, xAI, DeepSeek, Alibaba, or any other service provider. All product names, logos, and trademarks belong to their respective owners.
-
 ## Features
 
-- Single codebase with provider selection through `--app=<provider>`
-- Generic IAWrapper launcher with a floating provider selector when started without parameters
-- Isolated Electron session data per provider
-- Generic IAWrapper branding for taskbar and tray when launched without a provider parameter
-- Provider-specific icons, tray labels, and desktop launchers when launched directly with a provider
-- Context menu and clipboard helpers for web chat interfaces
-- Support for Linux desktop packaging with `AppImage`, `.deb`, and `tar.gz`
-- Flatpak metadata and launcher files included in the repository
-- Main/preload separation with a maintainable project layout
+- Standalone Linux desktop wrapper for multiple AI assistants
+- Isolated Electron session data per assistant
+- Direct launch support through `--app=<assistant>`
+- Generic `iawrapper` launcher mode when started without `--app`
+- First-run assistant chooser window in generic mode
+- Remembers the last assistant used in generic mode
+- Assistant switching from the system tray in generic mode
+- Generic IAWrapper branding for taskbar, tray, and window icon in generic mode
+- Assistant-specific launchers, icons, and runtime identity when launched directly
+- Linux packaging for `AppImage`, `.deb`, and `tar.gz`
+- Flatpak metadata and desktop entries included in the repository
 
 ## Screenshots
 
-Screenshots for supported providers live in [`flatpak/screenshots`](flatpak/screenshots).
+Screenshots for the Flatpak/AppStream metadata live in [`flatpak/screenshots`](flatpak/screenshots).
 
 ## Requirements
 
@@ -35,7 +35,7 @@ Screenshots for supported providers live in [`flatpak/screenshots`](flatpak/scre
 - Node.js 18 or newer
 - npm 8 or newer
 
-For Debian-based packaging and runtime usage, these libraries are expected:
+Runtime and packaging on Debian-based systems may require:
 
 - `libnotify4`
 - `libxtst6`
@@ -43,25 +43,28 @@ For Debian-based packaging and runtime usage, these libraries are expected:
 
 ## Installation
 
-Clone the repository and install dependencies:
-
 ```bash
 git clone https://github.com/jgomezbau/IAWrapper.git
 cd IAWrapper
 npm install
 ```
 
-## Development
+## Usage
 
-Run the generic IAWrapper launcher:
+Start IAWrapper in generic mode:
 
 ```bash
 npm start
 ```
 
-This opens a floating selector window so the user can choose one of the configured providers while keeping the generic IAWrapper branding.
+Generic mode behavior:
 
-Run a specific provider:
+- On first launch, or when no last assistant is stored, IAWrapper opens a chooser window labeled `Elegi un Asistente`.
+- After an assistant is selected, IAWrapper remembers it and opens that assistant directly on future launches without `--app`.
+- In generic mode, the taskbar icon, tray icon, and main application identity remain `IAWrapper`.
+- The active assistant can be changed from the tray menu through `Elegi un Asistente`.
+
+Start a specific assistant directly:
 
 ```bash
 npm run start:chatgpt
@@ -72,9 +75,22 @@ npm run start:deepseek
 npm run start:qwen
 ```
 
-The application also accepts direct provider arguments such as `--app=chatgpt`.
+You can also launch directly with:
 
-Useful development commands:
+```bash
+electron . --app=chatgpt
+```
+
+Direct-launch mode behavior:
+
+- Opens the requested assistant immediately
+- Does not show the generic chooser flow
+- Does not show the assistant-switching tray submenu
+- Uses the selected assistant identity and icon as the runtime branding
+
+## Development
+
+Useful commands:
 
 ```bash
 npm run dev
@@ -95,24 +111,21 @@ npm run build:appimage
 npm run build:deb
 ```
 
-Expected release artifacts are written to `dist/` and include:
+Release artifacts are written to `dist/` and typically include:
 
-- `IAWrapper-<version>-<arch>.AppImage`
-- `IAWrapper-<version>-<arch>.deb`
-- `IAWrapper-<version>-<arch>.tar.gz`
+- `IAWrapper-<version>-x86_64.AppImage`
+- `IAWrapper-<version>-amd64.deb`
+- `IAWrapper-<version>-x64.tar.gz`
 
-Notes:
+Packaging notes:
 
-- `electron-builder` is configured for Linux packaging only.
-- The canonical application icon for Linux packaging is [`assets/icons/iawrapper.png`](assets/icons/iawrapper.png).
-- Provider PNG icons used by the app and Flatpak launchers live in [`assets/icons/providers`](assets/icons/providers).
-- The Debian package installs the main launcher plus provider-specific `.desktop` entries for ChatGPT, Claude, Gemini, Grok, DeepSeek, and Qwen.
-- Launching `iawrapper` without `--app` uses the generic IAWrapper identity, icon, tray entry, and model selector window.
-- Launching with `--app=<provider>` opens that provider directly and uses its dedicated runtime identity.
+- `electron-builder` is configured for Linux packaging.
+- The main packaging icon is [`assets/icons/iawrapper.png`](assets/icons/iawrapper.png).
+- Runtime and launcher assistant icons live in [`assets/icons/providers`](assets/icons/providers).
+- The Debian package installs the main `iawrapper.desktop` entry plus assistant-specific `.desktop` launchers.
+- Flatpak metadata and desktop entries are maintained in [`flatpak/`](flatpak/).
 
 ## Flatpak
-
-The repository also includes Flatpak metadata in [`flatpak/`](flatpak/).
 
 Local Flatpak build:
 
@@ -120,7 +133,7 @@ Local Flatpak build:
 flatpak-builder --user --install --force-clean build-dir flatpak/io.github.jgomezbau.iawrapper.yml
 ```
 
-Run a specific provider after installation:
+Run a specific assistant after installation:
 
 ```bash
 flatpak run io.github.jgomezbau.iawrapper --app=chatgpt
@@ -136,10 +149,11 @@ flatpak run io.github.jgomezbau.iawrapper --app=qwen
 ```text
 .
 ├── assets/
-│   └── icons/
-│       ├── iawrapper.png
-│       ├── providers/
-│       └── source/
+│   ├── icons/
+│   │   ├── iawrapper.png
+│   │   ├── providers/
+│   │   └── source/
+│   └── linux/
 ├── flatpak/
 ├── src/
 │   ├── main/
@@ -153,22 +167,46 @@ flatpak run io.github.jgomezbau.iawrapper --app=qwen
 
 ## Icons And Assets
 
-The repository now keeps one canonical Linux asset set:
+- `assets/icons/iawrapper.png` is the canonical packaging icon.
+- `assets/icons/providers/*.png` are the assistant runtime icons and launcher assets.
+- `assets/icons/providers/iawrapper.png` is the generic runtime icon used by IAWrapper mode.
+- Legacy `.ico` assets are not part of the current Linux release pipeline.
 
-- `assets/icons/iawrapper.png` is the main application icon used by Electron Builder and Flatpak.
-- `assets/icons/providers/*.png` are the runtime and launcher icons for each supported provider.
-- `assets/icons/source/` can hold editable source artwork when a vector or original asset is worth retaining.
+## Session Model
 
-Legacy `.ico` files are not required for the current Linux release pipeline. They are not used by `electron-builder`, the runtime icon resolution, or Flatpak metadata, so they should not be part of the release branch unless Windows packaging is introduced later.
+Each assistant uses its own Electron partition and user-data directory. This keeps cookies, storage, and login state isolated between ChatGPT, Claude, Gemini, Grok, DeepSeek, and Qwen.
+
+In generic mode, IAWrapper also stores a small separate configuration file for the last assistant used:
+
+- `~/.config/IAWrappers/config.json`
+
+That file is only used to remember the last assistant selected in generic mode. It does not replace or mix with the per-assistant session data.
 
 ## Troubleshooting
 
-- If the generic launcher opens the selector instead of a provider directly, make sure you are using `npm run start:<provider>` or `--app=<provider>`.
-- If a provider based on a Google flow such as Gemini shows a consent page, complete it inside the embedded window. The wrapper keeps Google consent and Gemini navigation inside the app flow.
-- If packaging fails for `.deb`, verify the host has the system tooling required by `electron-builder` for Debian package creation.
-- If AppImage generation fails on a minimal system, verify common desktop packaging dependencies are installed.
-- If you are testing multiple providers, remember that each provider keeps its own Electron session data under the app data directory.
+- If `npm start` opens the chooser window, no valid last assistant is stored yet for generic mode.
+- If you want to bypass the chooser entirely, start the app with `--app=<assistant>` or use `npm run start:<assistant>`.
+- If Gemini shows a Google consent flow, complete it inside the embedded window. IAWrapper keeps the relevant Gemini and Google navigation inside the app flow.
+- If `.deb` packaging fails, verify the host has the system tooling required by `electron-builder`.
+- If AppImage creation fails on a minimal system, install the usual Linux desktop packaging dependencies first.
 
 ## License
 
 This project is released under the [MIT License](LICENSE).
+
+## Disclaimer
+
+IAWrapper is an independent and unofficial desktop wrapper project.
+
+It is not affiliated with, endorsed by, sponsored by, or supported by the companies behind the supported assistants, including:
+
+- OpenAI
+- Anthropic
+- Google
+- xAI
+- DeepSeek
+- Alibaba
+
+`ChatGPT`, `Claude`, `Gemini`, `Grok`, `DeepSeek`, `Qwen`, and any related product names, logos, icons, and trademarks are the property of their respective owners.
+
+This repository is intended to provide a Linux desktop wrapper experience for publicly available web applications. Users are responsible for complying with the terms of service, account requirements, and usage policies of each respective service.
