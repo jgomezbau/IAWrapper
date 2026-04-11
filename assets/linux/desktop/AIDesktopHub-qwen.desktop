@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Qwen
+Comment=AI Desktop Hub - Qwen
+Exec="/opt/AI Desktop Hub/AIDesktopHub" --app=qwen
+Terminal=false
+Type=Application
+Icon=AIDesktopHub-qwen
+Categories=Utility;Network;Chat;
+StartupWMClass=AIDesktopHub-qwen

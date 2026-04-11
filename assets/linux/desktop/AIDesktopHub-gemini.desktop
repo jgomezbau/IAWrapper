@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Gemini
+Comment=AI Desktop Hub - Gemini
+Exec="/opt/AI Desktop Hub/AIDesktopHub" --app=gemini
+Terminal=false
+Type=Application
+Icon=AIDesktopHub-gemini
+Categories=Utility;Network;Chat;
+StartupWMClass=AIDesktopHub-gemini

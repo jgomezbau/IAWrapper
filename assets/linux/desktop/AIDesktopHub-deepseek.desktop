@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=DeepSeek
+Comment=AI Desktop Hub - DeepSeek
+Exec="/opt/AI Desktop Hub/AIDesktopHub" --app=deepseek
+Terminal=false
+Type=Application
+Icon=AIDesktopHub-deepseek
+Categories=Utility;Network;Chat;
+StartupWMClass=AIDesktopHub-deepseek

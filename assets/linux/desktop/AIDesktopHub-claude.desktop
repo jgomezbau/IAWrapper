@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Claude
+Comment=AI Desktop Hub - Claude
+Exec="/opt/AI Desktop Hub/AIDesktopHub" --app=claude
+Terminal=false
+Type=Application
+Icon=AIDesktopHub-claude
+Categories=Utility;Network;Chat;
+StartupWMClass=AIDesktopHub-claude

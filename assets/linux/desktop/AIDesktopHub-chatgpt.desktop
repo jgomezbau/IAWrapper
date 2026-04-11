@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=ChatGPT
+Comment=AI Desktop Hub - ChatGPT
+Exec="/opt/AI Desktop Hub/AIDesktopHub" --app=chatgpt
+Terminal=false
+Type=Application
+Icon=AIDesktopHub-chatgpt
+Categories=Utility;Network;Chat;
+StartupWMClass=AIDesktopHub-chatgpt

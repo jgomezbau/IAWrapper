@@ -1,18 +1,25 @@
 #!/bin/sh
 set -eu
 
-APP_DIR="/opt/IAWrapper"
+if [ -d "/opt/AI Desktop Hub" ]; then
+  APP_DIR="/opt/AI Desktop Hub"
+elif [ -d "/opt/AIDesktopHub" ]; then
+  APP_DIR="/opt/AIDesktopHub"
+else
+  echo "No se encontro el directorio de instalacion de AI Desktop Hub" >&2
+  exit 1
+fi
 DESKTOP_SRC="$APP_DIR/resources/assets/linux/desktop"
-MAIN_ICON_SRC="$APP_DIR/resources/assets/icons/iawrapper.png"
+MAIN_ICON_SRC="$APP_DIR/resources/assets/icons/aidesktophub.png"
 ICON_SRC="$APP_DIR/resources/assets/icons/providers"
 DESKTOP_DST="/usr/share/applications"
 ICON_DST="/usr/share/icons/hicolor/512x512/apps"
 
-install -Dm644 "$MAIN_ICON_SRC" "$ICON_DST/iawrapper.png"
+install -Dm644 "$MAIN_ICON_SRC" "$ICON_DST/AIDesktopHub.png"
 
 for provider in chatgpt claude gemini grok deepseek qwen; do
-  install -Dm644 "$DESKTOP_SRC/iawrapper-$provider.desktop" "$DESKTOP_DST/iawrapper-$provider.desktop"
-  install -Dm644 "$ICON_SRC/$provider.png" "$ICON_DST/iawrapper-$provider.png"
+  install -Dm644 "$DESKTOP_SRC/AIDesktopHub-$provider.desktop" "$DESKTOP_DST/AIDesktopHub-$provider.desktop"
+  install -Dm644 "$ICON_SRC/$provider.png" "$ICON_DST/AIDesktopHub-$provider.png"
 done
 
 if command -v update-desktop-database >/dev/null 2>&1; then

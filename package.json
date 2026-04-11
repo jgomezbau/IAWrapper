@@ -1,15 +1,15 @@
 {
-  "name": "iawrapper",
+  "name": "aidesktophub",
   "version": "2.0.0",
   "description": "Linux desktop wrapper for ChatGPT, Claude, Gemini, Grok, DeepSeek, and Qwen",
-  "homepage": "https://github.com/jgomezbau/IAWrapper",
+  "homepage": "https://github.com/jgomezbau/AIDesktopHub",
   "author": "Juan Bau <jgomezbau@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jgomezbau/IAWrapper.git"
+    "url": "git+https://github.com/jgomezbau/AIDesktopHub.git"
   },
   "bugs": {
-    "url": "https://github.com/jgomezbau/IAWrapper/issues"
+    "url": "https://github.com/jgomezbau/AIDesktopHub/issues"
   },
   "main": "src/main/index.js",
   "engines": {
@@ -40,8 +40,8 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
-    "appId": "io.github.jgomezbau.iawrapper",
-    "productName": "IAWrapper",
+    "appId": "io.github.jgomezbau.AIDesktopHub",
+    "productName": "AI Desktop Hub",
     "asar": true,
     "directories": {
       "output": "dist",
@@ -59,8 +59,8 @@
     ],
     "extraResources": [
       {
-        "from": "assets/icons/iawrapper.png",
-        "to": "assets/icons/iawrapper.png"
+        "from": "assets/icons/aidesktophub.png",
+        "to": "assets/icons/aidesktophub.png"
       },
       {
         "from": "assets/linux",
@@ -72,7 +72,7 @@
       }
     ],
     "linux": {
-      "executableName": "iawrapper",
+      "executableName": "AIDesktopHub",
       "target": [
         "AppImage",
         "deb",
@@ -82,19 +82,19 @@
       "synopsis": "Linux desktop wrapper for AI web apps",
       "description": "Desktop wrapper for ChatGPT, Claude, Gemini, Grok, DeepSeek, and Qwen with isolated sessions per provider.",
       "desktop": {
-        "Name": "IAWrapper",
-        "Comment": "Linux desktop wrapper for AI assistants",
+        "Name": "AI Desktop Hub",
+        "Comment": "Desktop hub for AI assistants on Linux",
         "Categories": "Utility;Network;Chat;",
-        "StartupWMClass": "iawrapper-iawrapper"
+        "StartupWMClass": "AIDesktopHub"
       },
       "artifactName": "${productName}-${version}-${arch}.${ext}",
-      "icon": "icons/iawrapper.png"
+      "icon": "icons/aidesktophub.png"
     },
     "appImage": {
       "license": "LICENSE"
     },
     "deb": {
-      "packageName": "iawrapper",
+      "packageName": "aidesktophub",
       "afterInstall": "assets/linux/scripts/postinst.sh",
       "afterRemove": "assets/linux/scripts/postrm.sh",
       "depends": [

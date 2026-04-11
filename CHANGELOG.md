@@ -9,7 +9,7 @@ The format is based on Keep a Changelog and this project follows semantic versio
 ### Added
 
 - Added Gemini as a supported assistant across runtime configuration, Linux launchers, and Flatpak metadata.
-- Added a generic IAWrapper launch mode for starts without `--app=<assistant>`.
+- Added a generic AI Desktop Hub launch mode for starts without `--app=<assistant>`.
 - Added an initial chooser window labeled `Elegi un Asistente` for first use in generic mode.
 - Added persistence for the last assistant selected in generic mode.
 - Added assistant switching from the tray menu in generic mode.
@@ -19,7 +19,7 @@ The format is based on Keep a Changelog and this project follows semantic versio
 
 - Reorganized the source tree to keep main-process, preload, assets, and packaging concerns cleaner and easier to maintain.
 - Standardized Linux icon assets under `assets/icons` and clarified the split between packaging icons and runtime assistant icons.
-- Kept IAWrapper branding for taskbar, tray, and window identity when the app is launched without an explicit assistant.
+- Kept AI Desktop Hub branding for taskbar, tray, and window identity when the app is launched without an explicit assistant.
 - Preserved assistant-specific launch behavior when the app is started with `--app=<assistant>`.
 - Improved Gemini navigation handling so Google consent and related internal pages stay inside the embedded app flow.
 - Updated packaging metadata, release documentation, and Linux release structure for public distribution.

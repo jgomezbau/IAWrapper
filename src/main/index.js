@@ -2,15 +2,16 @@ const { app, BrowserWindow, Menu, session, shell, Tray, nativeImage } = require(
 const path = require('path');
 const fs = require('fs');
 const net = require('net');
-const { APPS, parseArgs } = require('./apps');
+const { APPS, DEFAULT_APP_ID, parseArgs } = require('./apps');
 const { setupIPC } = require('./ipc');
 const { applyRuntimeFlags } = require('./runtime-flags');
 
 const cli = parseArgs(process.argv);
 const projectRoot = path.resolve(__dirname, '..', '..');
 const iconsRoot = path.join(projectRoot, 'assets', 'icons');
-const brandingAppConfig = cli.explicitApp ? APPS[cli.appId] : APPS.iawrapper;
-const genericSettingsDir = path.join(app.getPath('appData'), 'IAWrappers');
+const SELECTOR_PROTOCOL = 'aidesktophub-select://';
+const brandingAppConfig = cli.explicitApp ? APPS[cli.appId] : APPS[DEFAULT_APP_ID];
+const genericSettingsDir = path.join(app.getPath('appData'), 'AIDesktopHub');
 const genericSettingsFile = path.join(genericSettingsDir, 'config.json');
 const NO_PARAM_MODE = !cli.explicitApp;
 
@@ -27,7 +28,7 @@ function ensureDir(dir) {
 function resolveIconPath(iconName) {
   const candidates = [
     path.join(iconsRoot, iconName),
-    path.join(iconsRoot, 'iawrapper.png')
+    path.join(iconsRoot, 'aidesktophub.png')
   ];
 
   return candidates.find((candidate) => fs.existsSync(candidate)) || candidates[candidates.length - 1];
@@ -38,7 +39,7 @@ function createTrayIcon(iconName) {
   let image = nativeImage.createFromPath(iconPath);
 
   if (image.isEmpty()) {
-    image = nativeImage.createFromPath(path.join(iconsRoot, 'iawrapper.png'));
+    image = nativeImage.createFromPath(path.join(iconsRoot, 'aidesktophub.png'));
   }
 
   if (image.isEmpty()) {
@@ -65,7 +66,7 @@ function getAssistantMenuIcon(iconName) {
   let image = nativeImage.createFromPath(iconPath);
 
   if (image.isEmpty()) {
-    image = nativeImage.createFromPath(resolveIconPath('providers/iawrapper.png'));
+    image = nativeImage.createFromPath(resolveIconPath('providers/aidesktophub.png'));
   }
 
   if (!image.isEmpty()) {
@@ -102,7 +103,7 @@ function hashString(input) {
 }
 
 function profileLockPort(profileId) {
-  return 41000 + (hashString(`iawrapper:${profileId}`) % 2000);
+  return 41000 + (hashString(`AIDesktopHub:${profileId}`) % 2000);
 }
 
 function getActiveAppConfig() {
@@ -110,11 +111,11 @@ function getActiveAppConfig() {
 }
 
 function getPartitionName() {
-  return `persist:iawrapper:${getActiveAppConfig().id}`;
+  return `persist:AIDesktopHub:${getActiveAppConfig().id}`;
 }
 
 function getUserDataPath() {
-  return path.join(app.getPath('appData'), 'IAWrappers', getActiveAppConfig().id);
+  return path.join(app.getPath('appData'), 'AIDesktopHub', getActiveAppConfig().id);
 }
 
 function setActiveApp(appId) {
@@ -124,7 +125,7 @@ function setActiveApp(appId) {
 }
 
 function getSupportedProviders() {
-  return Object.values(APPS).filter(({ id }) => id !== 'iawrapper');
+  return Object.values(APPS).filter(({ id }) => id !== DEFAULT_APP_ID);
 }
 
 function isSupportedProvider(appId) {
@@ -218,8 +219,11 @@ function isGeminiInternalUrl(url) {
   );
 }
 
-app.setName(`iawrapper-${brandingAppConfig.id}`);
-app.setDesktopName(`iawrapper-${brandingAppConfig.id}.desktop`);
+const desktopBaseName = brandingAppConfig.id === DEFAULT_APP_ID
+  ? 'AIDesktopHub'
+  : `AIDesktopHub-${brandingAppConfig.id}`;
+app.setName(desktopBaseName);
+app.setDesktopName(`${desktopBaseName}.desktop`);
 ensureDir(getUserDataPath());
 app.setPath('userData', getUserDataPath());
 applyRuntimeFlags(app);
@@ -513,7 +517,7 @@ function buildProviderSelectorHtml() {
     const iconBuffer = fs.readFileSync(iconPath);
     const iconUrl = `data:image/png;base64,${iconBuffer.toString('base64')}`;
     return `
-      <a class="provider-card" href="iawrapper-select://${provider.id}">
+      <a class="provider-card" href="${SELECTOR_PROTOCOL}${provider.id}">
         <img src="${iconUrl}" alt="${provider.name}" class="provider-icon">
         <span class="provider-name">${provider.name}</span>
       </a>
@@ -525,7 +529,7 @@ function buildProviderSelectorHtml() {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>IAWrapper</title>
+      <title>AI Desktop Hub</title>
       <style>
         :root {
           color-scheme: light;
@@ -601,7 +605,7 @@ function buildProviderSelectorHtml() {
     <body>
       <main class="panel">
         <h1>Elegi un Asistente</h1>
-        <p>Elegí el asistente que quieras usar. Más adelante podrás cambiarlo desde el tray de IAWrapper.</p>
+        <p>Elegí el asistente que quieras usar. Más adelante podrás cambiarlo desde el tray de AI Desktop Hub.</p>
         <section class="providers">
           ${cards}
         </section>
@@ -638,14 +642,14 @@ function createSelectorWindow() {
   selectorWindow.loadURL(`data:text/html;charset=UTF-8,${encodeURIComponent(buildProviderSelectorHtml())}`);
 
   selectorWindow.webContents.on('will-navigate', (event, url) => {
-    if (!url.startsWith('iawrapper-select://')) {
+    if (!url.toLowerCase().startsWith(SELECTOR_PROTOCOL)) {
       event.preventDefault();
       return;
     }
 
     event.preventDefault();
-    const appId = url.replace('iawrapper-select://', '').trim().toLowerCase();
-    if (!APPS[appId] || appId === 'iawrapper') {
+    const appId = url.slice(SELECTOR_PROTOCOL.length).trim().toLowerCase();
+    if (!APPS[appId] || appId === DEFAULT_APP_ID.toLowerCase()) {
       return;
     }
 
@@ -738,7 +742,7 @@ function createWindow(windowState = null) {
     y: windowState?.bounds?.y,
     show: false,
     autoHideMenuBar: true,
-    title: useGenericBranding ? `IAWrapper - ${appConfig.name}` : appConfig.title,
+    title: useGenericBranding ? `AI Desktop Hub - ${appConfig.name}` : appConfig.title,
     icon: resolveIconPath(useGenericBranding ? brandingAppConfig.icon : appConfig.icon),
     webPreferences: {
       nodeIntegration: false,

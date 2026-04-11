@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Grok
+Comment=AI Desktop Hub - Grok
+Exec="/opt/AI Desktop Hub/AIDesktopHub" --app=grok
+Terminal=false
+Type=Application
+Icon=AIDesktopHub-grok
+Categories=Utility;Network;Chat;
+StartupWMClass=AIDesktopHub-grok

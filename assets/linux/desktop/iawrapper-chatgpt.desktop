@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=ChatGPT
-Comment=IAWrapper - ChatGPT
-Exec=/opt/IAWrapper/iawrapper --app=chatgpt
-Terminal=false
-Type=Application
-Icon=iawrapper-chatgpt
-Categories=Utility;Network;Chat;
-StartupWMClass=iawrapper-chatgpt

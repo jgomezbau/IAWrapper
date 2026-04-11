@@ -1,20 +1,20 @@
 <p align="center">
-  <img src="assets/icons/providers/iawrapper.png" alt="IAWrapper" width="96" height="96">
+  <img src="assets/icons/providers/aidesktophub.png" alt="AI Desktop Hub" width="96" height="96">
 </p>
 
-<h1 align="center">IAWrapper</h1>
+<h1 align="center">AI Desktop Hub</h1>
 
 <p align="center">
   Linux-first Electron desktop wrapper for popular AI assistants
 </p>
 
 <p align="center">
-  Standalone launchers · Isolated sessions · Generic IAWrapper mode · AppImage / .deb / Flatpak-ready
+  Standalone launchers · Isolated sessions · Generic AI Desktop Hub mode · AppImage / .deb / Flatpak-ready
 </p>
 
 ## Overview
 
-IAWrapper turns supported AI web apps into standalone Linux desktop applications with isolated Electron sessions, Linux packaging, and a generic launcher mode for users who want to choose an assistant at runtime.
+AI Desktop Hub turns supported AI web apps into standalone Linux desktop applications with isolated Electron sessions, Linux packaging, and a generic launcher mode for users who want to choose an assistant at runtime.
 
 ## Supported Assistants
 
@@ -52,11 +52,11 @@ IAWrapper turns supported AI web apps into standalone Linux desktop applications
 - Standalone Linux desktop wrapper for multiple AI assistants
 - Isolated Electron session data per assistant
 - Direct launch support through `--app=<assistant>`
-- Generic `iawrapper` launcher mode when started without `--app`
+- Generic `AIDesktopHub` launcher mode when started without `--app`
 - First-run chooser window labeled `Elegi un Asistente`
 - Remembers the last assistant used in generic mode
 - Assistant switching from the system tray in generic mode
-- Generic IAWrapper branding for taskbar, tray, and window icon in generic mode
+- AI Desktop Hub branding for taskbar, tray, and window icon in generic mode
 - Assistant-specific launchers, icons, and runtime identity when launched directly
 - Linux packaging for `AppImage`, `.deb`, and `tar.gz`
 - Flatpak metadata and desktop entries included in the repository
@@ -66,12 +66,12 @@ IAWrapper turns supported AI web apps into standalone Linux desktop applications
 Install dependencies:
 
 ```bash
-git clone https://github.com/jgomezbau/IAWrapper.git
-cd IAWrapper
+git clone https://github.com/jgomezbau/AIDesktopHub.git
+cd AIDesktopHub
 npm install
 ```
 
-Start IAWrapper in generic mode:
+Start AI Desktop Hub in generic mode:
 
 ```bash
 npm start
@@ -98,13 +98,13 @@ electron . --app=chatgpt
 
 **Generic mode**
 
-Use `npm start` or launch `iawrapper` without `--app`.
+Use `npm start` or launch `AIDesktopHub` without `--app`.
 
-- On first launch, or when no valid last assistant is stored, IAWrapper opens a chooser window labeled `Elegi un Asistente`.
-- Once an assistant is selected, IAWrapper remembers it and reopens it automatically on future launches without `--app`.
-- In this mode, the application identity stays as `IAWrapper`.
-- The taskbar icon remains the IAWrapper icon.
-- The tray icon remains the IAWrapper icon.
+- On first launch, or when no valid last assistant is stored, AI Desktop Hub opens a chooser window labeled `Elegi un Asistente`.
+- Once an assistant is selected, AI Desktop Hub remembers it and reopens it automatically on future launches without `--app`.
+- In this mode, the application identity stays as `AI Desktop Hub`.
+- The taskbar icon remains the AI Desktop Hub icon.
+- The tray icon remains the AI Desktop Hub icon.
 - The active assistant can be changed from the tray menu through `Elegi un Asistente`.
 
 **Direct-launch mode**
@@ -153,16 +153,16 @@ npm run build:deb
 
 Release artifacts are written to `dist/` and typically include:
 
-- `IAWrapper-<version>-x86_64.AppImage`
-- `IAWrapper-<version>-amd64.deb`
-- `IAWrapper-<version>-x64.tar.gz`
+- `AI Desktop Hub-<version>-x86_64.AppImage`
+- `AI Desktop Hub-<version>-amd64.deb`
+- `AI Desktop Hub-<version>-x64.tar.gz`
 
 Packaging notes:
 
 - `electron-builder` is configured for Linux packaging.
-- The main packaging icon is [`assets/icons/iawrapper.png`](assets/icons/iawrapper.png).
+- The main packaging icon is [`assets/icons/aidesktophub.png`](assets/icons/aidesktophub.png).
 - Runtime and launcher assistant icons live in [`assets/icons/providers`](assets/icons/providers).
-- The Debian package installs the main `iawrapper.desktop` entry plus assistant-specific `.desktop` launchers.
+- The Debian package installs the main `AIDesktopHub.desktop` entry plus assistant-specific `.desktop` launchers.
 - Flatpak metadata and desktop entries are maintained in [`flatpak/`](flatpak/).
 
 ## Flatpak
@@ -170,18 +170,18 @@ Packaging notes:
 Local Flatpak build:
 
 ```bash
-flatpak-builder --user --install --force-clean build-dir flatpak/io.github.jgomezbau.iawrapper.yml
+flatpak-builder --user --install --force-clean build-dir flatpak/io.github.jgomezbau.AIDesktopHub.yml
 ```
 
 Run a specific assistant after installation:
 
 ```bash
-flatpak run io.github.jgomezbau.iawrapper --app=chatgpt
-flatpak run io.github.jgomezbau.iawrapper --app=claude
-flatpak run io.github.jgomezbau.iawrapper --app=gemini
-flatpak run io.github.jgomezbau.iawrapper --app=grok
-flatpak run io.github.jgomezbau.iawrapper --app=deepseek
-flatpak run io.github.jgomezbau.iawrapper --app=qwen
+flatpak run io.github.jgomezbau.AIDesktopHub --app=chatgpt
+flatpak run io.github.jgomezbau.AIDesktopHub --app=claude
+flatpak run io.github.jgomezbau.AIDesktopHub --app=gemini
+flatpak run io.github.jgomezbau.AIDesktopHub --app=grok
+flatpak run io.github.jgomezbau.AIDesktopHub --app=deepseek
+flatpak run io.github.jgomezbau.AIDesktopHub --app=qwen
 ```
 
 ## Screenshots
@@ -194,7 +194,7 @@ Screenshots used for Flatpak/AppStream metadata live in [`flatpak/screenshots`](
 .
 ├── assets/
 │   ├── icons/
-│   │   ├── iawrapper.png
+│   │   ├── aidesktophub.png
 │   │   ├── providers/
 │   │   └── source/
 │   └── linux/
@@ -211,18 +211,18 @@ Screenshots used for Flatpak/AppStream metadata live in [`flatpak/screenshots`](
 
 ## Icons And Assets
 
-- `assets/icons/iawrapper.png` is the canonical packaging icon.
+- `assets/icons/aidesktophub.png` is the canonical packaging icon.
 - `assets/icons/providers/*.png` are the assistant runtime icons and launcher assets.
-- `assets/icons/providers/iawrapper.png` is the generic runtime icon used by IAWrapper mode.
+- `assets/icons/providers/aidesktophub.png` is the generic runtime icon used by the generic AI Desktop Hub mode.
 - Legacy `.ico` assets are not part of the current Linux release pipeline.
 
 ## Session Model
 
 Each assistant uses its own Electron partition and user-data directory. This keeps cookies, storage, and login state isolated between ChatGPT, Claude, Gemini, Grok, DeepSeek, and Qwen.
 
-In generic mode, IAWrapper also stores a small separate configuration file for the last assistant used:
+In generic mode, AI Desktop Hub also stores a small separate configuration file for the last assistant used:
 
-- `~/.config/IAWrappers/config.json`
+- `~/.config/AIDesktopHub/config.json`
 
 That file is only used to remember the last assistant selected in generic mode. It does not replace or mix with the per-assistant session data.
 
@@ -230,7 +230,7 @@ That file is only used to remember the last assistant selected in generic mode. 
 
 - If `npm start` opens the chooser window, no valid last assistant is stored yet for generic mode.
 - If you want to bypass the chooser entirely, start the app with `--app=<assistant>` or use `npm run start:<assistant>`.
-- If Gemini shows a Google consent flow, complete it inside the embedded window. IAWrapper keeps the relevant Gemini and Google navigation inside the app flow.
+- If Gemini shows a Google consent flow, complete it inside the embedded window. AI Desktop Hub keeps the relevant Gemini and Google navigation inside the app flow.
 - If `.deb` packaging fails, verify the host has the system tooling required by `electron-builder`.
 - If AppImage creation fails on a minimal system, install the usual Linux desktop packaging dependencies first.
 
@@ -240,7 +240,7 @@ This project is released under the [MIT License](LICENSE).
 
 ## Disclaimer
 
-IAWrapper is an independent and unofficial desktop wrapper project.
+AI Desktop Hub is an independent and unofficial desktop wrapper project.
 
 It is not affiliated with, endorsed by, sponsored by, or supported by the companies behind the supported assistants, including:
 

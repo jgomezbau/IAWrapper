@@ -4,11 +4,11 @@ set -eu
 DESKTOP_DST="/usr/share/applications"
 ICON_DST="/usr/share/icons/hicolor/512x512/apps"
 
-rm -f "$ICON_DST/iawrapper.png"
+rm -f "$ICON_DST/AIDesktopHub.png"
 
 for provider in chatgpt claude gemini grok deepseek qwen; do
-  rm -f "$DESKTOP_DST/iawrapper-$provider.desktop"
-  rm -f "$ICON_DST/iawrapper-$provider.png"
+  rm -f "$DESKTOP_DST/AIDesktopHub-$provider.desktop"
+  rm -f "$ICON_DST/AIDesktopHub-$provider.png"
 done
 
 if command -v update-desktop-database >/dev/null 2>&1; then

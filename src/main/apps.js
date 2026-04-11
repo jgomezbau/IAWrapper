@@ -1,12 +1,12 @@
-const DEFAULT_APP_ID = 'iawrapper';
+const DEFAULT_APP_ID = 'AIDesktopHub';
 
 const APPS = Object.freeze({
-  iawrapper: {
-    id: 'iawrapper',
-    name: 'IAWrapper',
-    title: 'IAWrapper',
+  AIDesktopHub: {
+    id: 'AIDesktopHub',
+    name: 'AI Desktop Hub',
+    title: 'AI Desktop Hub',
     url: 'https://chatgpt.com/',
-    icon: 'providers/iawrapper.png',
+    icon: 'providers/aidesktophub.png',
     loginDomains: [
       /(^|\.)chatgpt\.com$/i,
       /(^|\.)openai\.com$/i,
@@ -111,6 +111,11 @@ const APPS = Object.freeze({
   }
 });
 
+function resolveAppId(input) {
+  const normalized = String(input || '').trim().toLowerCase();
+  return Object.keys(APPS).find((appId) => appId.toLowerCase() === normalized) || null;
+}
+
 function parseArgs(argv) {
   const result = {
     appId: DEFAULT_APP_ID,
@@ -122,8 +127,11 @@ function parseArgs(argv) {
     const normalizedArg = String(arg).trim().toLowerCase();
 
     if (arg.startsWith('--app=')) {
-      result.appId = arg.slice('--app='.length).trim().toLowerCase();
-      result.explicitApp = true;
+      const resolvedAppId = resolveAppId(arg.slice('--app='.length));
+      if (resolvedAppId) {
+        result.appId = resolvedAppId;
+        result.explicitApp = true;
+      }
       continue;
     }
 
@@ -132,16 +140,17 @@ function parseArgs(argv) {
     }
 
     if (normalizedArg.startsWith('start:')) {
-      const appId = normalizedArg.slice('start:'.length);
-      if (APPS[appId]) {
-        result.appId = appId;
+      const resolvedAppId = resolveAppId(normalizedArg.slice('start:'.length));
+      if (resolvedAppId) {
+        result.appId = resolvedAppId;
         result.explicitApp = true;
         continue;
       }
     }
 
-    if (APPS[normalizedArg]) {
-      result.appId = normalizedArg;
+    const resolvedAppId = resolveAppId(normalizedArg);
+    if (resolvedAppId) {
+      result.appId = resolvedAppId;
       result.explicitApp = true;
       continue;
     }
@@ -161,5 +170,6 @@ function parseArgs(argv) {
 module.exports = {
   APPS,
   DEFAULT_APP_ID,
+  resolveAppId,
   parseArgs
 };
