@@ -553,11 +553,13 @@ function buildProviderSelectorHtml() {
         h1 {
           margin: 0 0 8px;
           font-size: 28px;
+          text-align: center;
         }
         p {
           margin: 0 0 22px;
           line-height: 1.5;
           color: #475569;
+          text-align: center;
         }
         .providers {
           display: grid;
@@ -599,7 +601,7 @@ function buildProviderSelectorHtml() {
     <body>
       <main class="panel">
         <h1>Elegi un Asistente</h1>
-        <p>Elegí el asistente que quieres abrir. IAWrapper mantendrá su icono genérico mientras cargas el chat seleccionado.</p>
+        <p>Elegí el asistente que quieras usar. Más adelante podrás cambiarlo desde el tray de IAWrapper.</p>
         <section class="providers">
           ${cards}
         </section>
